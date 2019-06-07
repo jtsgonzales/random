@@ -8,13 +8,15 @@ mean <- (data$x + data$y)/2
 data <- data.frame(cbind(x, y, mean))
 head(data)
 
-getrecord <- function(n){
-  if (n>100) {
-    stop("Value of n can only be whole integers between 1 and 100.")
-  } else if (n<1) {
-    stop("Value of n can only be whole integers between 1 and 100.")
-  } else {
-  data[n, ]
+getrecord <- function(k){
+  if (k>100) {
+    stop("Value of k can only be whole integers between 1 and 100.")
+  } else if (k<1) {
+    stop("Value of k can only be whole integers between 1 and 100.")
+  } else if (is.numeric(k) == FALSE) {
+    stop("Value of k can only be whole integers between 1 and 100.")
+  } else { 
+  data[k, ]
   }
 }
 
