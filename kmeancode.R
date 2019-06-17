@@ -25,8 +25,8 @@ getcluster <- function(k) {
 
   kset <- rbind(centroid, filter(data, data$cid == k))
   print(kset)
-  
-  scplot <- ggplot(data = kset) + geom_point(data = kset, aes(x = x, y = y, color = as.factor(desc)), na.rm=TRUE)
+
+  scplot <- ggplot(data = kset) + geom_point(data = kset, size = 3, aes(x = x, y = y, color = desc), na.rm=TRUE)
   scplot  
 }
 
