@@ -1,5 +1,3 @@
-
-
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -33,5 +31,4 @@ getcluster <- function(k) {
 }
 
 #test
-
 getcluster(5)
