@@ -1,24 +1,37 @@
 
+
+library(dplyr)
+library(tidyr)
 library(ggplot2)
 
-set.seed(10000)
-x <- runif(100, 0, 100)
-y <- rnorm(100, 50, 50)
-mean <- (data$x + data$y)/2
-data <- data.frame(cbind(x, y, mean))
-head(data)
+set.seed(1000)
 
-getrecord <- function(k){
-  if (k>100) {
-    stop("Value of k can only be whole integers between 1 and 100.")
-  } else if (k<1) {
-    stop("Value of k can only be whole integers between 1 and 100.")
-  } else if (is.numeric(k) == FALSE) {
-    stop("Value of k can only be whole integers between 1 and 100.")
-  } else { 
-  data[k, ]
-  }
+x <- rnorm(100)
+y <- rnorm(100)
+
+data <- data.frame(cbind(x, y))
+
+getcluster <- function(k) {
+  
+  fit01 <- kmeans(data, 10, 100)
+  cid <- fit01$cluster
+  desc <- rep("coordinates", 100)
+  data <- cbind(cid, data, desc)
+  
+  centroid <- data.frame(fit01$centers[k, ])
+  colnames(centroid) <- "centroid"
+  centroid <- cbind(name = rownames(centroid), centroid)
+  centroid <- spread(centroid, key = name, value = centroid)
+  centroid <- cbind(k, centroid, desc = "centroid")
+  colnames(centroid) <- c("cid", "x", "y", "desc")
+
+  kset <- rbind(centroid, filter(data, data$cid == k))
+  print(kset)
+  
+  scplot <- ggplot(data = kset) + geom_point(data = kset, aes(x = x, y = y, color = as.factor(desc)), na.rm=TRUE)
+  scplot  
 }
 
-figure <- ggplot(data = data, aes(x = x, y = y, color = mean)) + geom_point(data = data, na.rm = TRUE)
-figure <- figure + ggtitle("                                              Random Numbers Scatter Plot")
+#test
+
+getcluster(5)
